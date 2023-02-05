@@ -7,7 +7,7 @@ pipeline {
     stages {
       stage('Git checkout') {    //Getting the source code from my github repo 'main' branch
            steps {
-               git branch: 'main', url: 'https://github.com/Jeevasanna/pipeline-demo-java-application.git'
+               git branch: 'main', url: 'https://github.com/Jeevasanna/demo-java-application.git'
            }
        }
 //        stage('OWASP-Dependency-Check') { 
@@ -73,7 +73,7 @@ pipeline {
            }
         stage('ansible deployement') {
             steps {
-              ansiblePlaybook credentialsId: 'ansible-deployment', disableHostKeyChecking: true, installation: 'ansible', inventory: 'hosts.inv', playbook: 'Tomcat-Deployment.yaml'
+              ansiblePlaybook credentialsId: 'ansible-deployment', disableHostKeyChecking: true, installation: 'ansible', inventory: 'hosts.inv', playbook: 'tomcat-installation.yaml'
             }      
         }
     }
