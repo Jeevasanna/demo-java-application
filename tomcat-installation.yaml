@@ -1,26 +1,27 @@
-- hosts: tomcat
-  become: true
-  tasks:
-  - name: to remove existing war file from tmp 
-    shell: rm -rf /tmp/java-web-app-1.0.0.war
-  - name: "Download war file"
-    maven_artifact:
-      group_id: com.mt
-      artifact_id: java-web-app
-      extension: war
-      version: 1.0.0
-      repository_url: "http://43.204.22.243:8081/repository/test-release/"
-      username: admin
-      password: admin123
-      dest: "/tmp/maven-web-application.war"
-      mode: '0644'
-  - name: copy war file
-      copy: 
-        src: /tmp/java-web-app-1.0.0.war
-        dest: /opt/tomcat10/webapps/
-        remote_src: yes
-  - name: to stop tomcat services
-    shell: /opt/tomcat10/bin/shutdown.sh
-  - name: to start tomcat services
-    shell: /opt/tomcat10/bin/startup.sh
-      
+- hosts: appServers
+  become: true
+  tasks:
+  #- name: Install lxml
+   # pip: name=lxml
+  - name: remove war file from temp folder
+    shell: rm -rf /tmp/java-web-app-1.0.0.war
+  - name: "Download war file"
+    maven_artifact:
+      group_id: com.mt
+      artifact_id: java-web-app
+      extension: war
+      version: 1.0.0
+      repository_url: "http://43.204.22.243:8081/repository/test-release/" 
+      username: admin
+      password: admin123
+      dest: "/tmp/java-web-app-1.0.0.war"
+      mode: '0644'
+  - name: Copy the war file
+    copy:
+      src: /tmp/java-web-app-1.0.0.war
+      dest: /opt/tomcat9/webapps/
+      remote_src: yes
+  - name: Stop tomcat services
+    shell: /opt/tomcat10/bin/shutdown.sh   
+  - name: Start Tomcat
+    shell: nohup /opt/tomcat10//bin/startup.sh
