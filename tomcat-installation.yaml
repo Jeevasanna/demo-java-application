@@ -4,8 +4,8 @@
   tasks:
     - name: copying file to tomcat server
       copy:
-       src: /var/lib/jenkins/workspace/jfrog_download/target/{{ version }}/jenkins-git-integration.war
-       dest: /opt/apache-tomcat-10.0.27/webapps/
+       src: /var/lib/jenkins/workspace/Pipeline-Job/target/java-web-app-1.0.0.war
+       dest: /opt/tomcat10/webapps/
       notify: "Restart tomcat"
       handlers:
     - name: "Restart tomcat"
