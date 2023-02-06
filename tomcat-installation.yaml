@@ -18,7 +18,7 @@
        src: /tmp/java-web-app-1.0.0.war
        dest: /opt/tomcat10/webapps/
        remote_src: yes
-      notify: "Restart tomcat"
+       notify: Restart tomcat
  handlers:
  - name: "Restart tomcat"
    shell: tomcatup
