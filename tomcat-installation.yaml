@@ -1,3 +1,14 @@
+- name: Download war file   
+  maven_artifact:       
+   group_id: com.mt        
+   artifact_id: java-web-app      
+   extension: war        
+   version: 1.0.0        
+   repository_url: "http://43.204.22.243:8081/repository/test-release/"        
+   username: admin        
+   password: admin123       
+   dest: "/tmp/java-web-app-1.0.0.war"        
+   mode: '0644'
 - name: play1
 - hosts: tomcat
   become: true
