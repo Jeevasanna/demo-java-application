@@ -1,29 +1,13 @@
-- hosts: all
+- name: play1
+- hosts: tomcat
   become: true
-  vars:
-    artifact_url: >-
-      http://43.204.22.243:8081/repository/test-release/com/mt/java-web-app/1.0.0/java-web-app-1.0.0.war
-    tomcat_webapps_path: /tmp/tomcat
   tasks:
-    - name: Pulling latest tomcat image
-      docker_image:
-        name: tomcat
-        source: pull
-        state: present
-    - name: Run docker container using tomcat image
-      docker_container:
-        name: tomcat
-        image: tomcat
-        state: started
-        detach: yes
-        ports:
-          - '8888:8080'
-        volumes:
-          - '{{ tomcat_webapps_path }}:/usr/local/tomcat/webapps'
-    - name: Download artifact
-      shell: |
-        curl -o /tmp/java-web-app-1.0.0.war "{{ artifact_url }}" 
-        echo "Artifact download complete."  
-    - name: Deploy unto tomcat
-      shell: |
-        cp /tmp/java-web-app-1.0.0.war "{{ tomcat_webapps_path }}"/webapps
+    - name: copying file to tomcat server
+      copy:
+       src: /var/lib/jenkins/workspace/jfrog_download/target/{{ version }}/jenkins-git-integration.war
+       dest: /opt/apache-tomcat-10.0.27/webapps/
+      notify: "Restart tomcat"
+      handlers:
+    - name: "Restart tomcat"
+      shell: tomcatdown
+      shell: tomcatup
