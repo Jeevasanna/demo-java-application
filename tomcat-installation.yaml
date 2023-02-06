@@ -2,15 +2,6 @@
 - hosts: tomcat
   become: true
   tasks:
-    - name: copying file to tomcat server
-      copy:
-       src: /tmp/java-web-app-1.0.0.war
-       dest: /opt/tomcat10/webapps/
-       remote_src: yes
-      notify: "Restart tomcat"
-      handlers:
-    - name: "Restart tomcat"
-      shell: tomcatup
     - name: Download war file 
       maven_artifact: 
        group_id: com.mt
@@ -22,3 +13,12 @@
        password: admin123
        dest: "/tmp/java-web-app-1.0.0.war" 
        mode: '0755'
+    - name: copying file to tomcat server
+      copy:
+       src: /tmp/java-web-app-1.0.0.war
+       dest: /opt/tomcat10/webapps/
+       remote_src: yes
+      notify: "Restart tomcat"
+ handlers:
+ - name: "Restart tomcat"
+   shell: tomcatup
