@@ -4,10 +4,13 @@
   tasks:
     - name: remove existing files
       shell: rm -rf /tmp/java-web-app-1.0.0.war
+    - name: Install pip3
+      apt: 
+         name: python3-pip
+         state: present
     - name: Install lxml
-      pip:
-        name: lxml
-        executable: pip3
+      pip: 
+         name: lxml
     - name: download war file
       maven_artifact:
         group_id: com.mt
